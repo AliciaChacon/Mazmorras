@@ -42,7 +42,7 @@ public class GameManager {
     public void testGame(){
         //player = new Player("portrait", "player", "Paladin", "item7", "item6", new Vector2(0, 0));
         player = Player.getInstancia(
-                "Paladin",33,12,20,15,
+                "Paladin1",33,12,20,15,
                 "portrait", "player", "item7", "item6", new Vector2(0, 0));
         player.getInventory().addItem("item1");
         player.getInventory().addItem("item2");
