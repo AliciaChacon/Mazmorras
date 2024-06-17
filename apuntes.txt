@@ -1,0 +1,7 @@
+// Modelo: Clase que guarda información y algoritmos
+// Vista: archivo.fxml
+// Controlador: Conoce la vista y el modelo y gestiona la comunicacion de ellos, los inputs y qué se debe hacer
+// El controlador conoce el modelo pero el modelo no conoce al controlador, por lo que hay ue añadir un elemento denominado 'Observer'
+// javaFX scene builder viene a ser las vistas
+
+Proyecto Final the one
