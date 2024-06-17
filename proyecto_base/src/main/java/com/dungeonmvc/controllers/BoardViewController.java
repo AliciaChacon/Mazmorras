@@ -1,9 +1,13 @@
 package com.dungeonmvc.controllers;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 import com.dungeonmvc.App;
 import com.dungeonmvc.GameManager;
 import com.dungeonmvc.interfaces.Observer;
 import com.dungeonmvc.models.Board;
+import com.dungeonmvc.models.Personaje;
 import com.dungeonmvc.utils.Vector2;
 import com.dungeonmvc.utils.Vector2Double;
 
@@ -24,6 +28,7 @@ public class BoardViewController implements Observer{
     private double boardSize;
  
     private ImageView playerImg;
+    HashMap<Personaje, ImageView> mapaJugadorImagen;
 
     @FXML
     private void initialize() {
@@ -59,14 +64,39 @@ public class BoardViewController implements Observer{
         }
 
 
-
-
         playerImg = new ImageView();
         playerImg.setFitWidth(cellSize);
         playerImg.setFitHeight(cellSize);
         playerImg.setImage(new Image(App.class.getResource("images/"+board.getPlayer().getImage()+".png").toExternalForm(),cellSize,cellSize,true,false));
         playerImg.setSmooth(false);
         pane.getChildren().add(playerImg);
+        
+        
+        ArrayList<ImageView> imagenesPersonajes = new ArrayList<ImageView>();
+        imagenesPersonajes.add(playerImg);
+        
+        
+        ArrayList<Personaje> personajes = GameManager.getInstance().getPersonajes();
+        mapaJugadorImagen = new HashMap<>();
+        ImageView enemyImg;
+        
+        mapaJugadorImagen.put(personajes.get(0), playerImg);
+        
+        for (int i = 1; i < personajes.size(); i++) {   
+            enemyImg = new ImageView();
+            
+            enemyImg.setFitWidth(cellSize);
+            enemyImg.setFitHeight(cellSize);
+            enemyImg.setImage(new Image(App.class.getResource("images/"+GameManager.getInstance().getEnemy().getImage()+".png").toExternalForm(),cellSize,cellSize,true,false));
+            enemyImg.setSmooth(false);
+            
+            enemyImg.setLayoutX(personajes.get(i).getPosition().getX());
+            enemyImg.setLayoutY(personajes.get(i).getPosition().getY());
+            
+            pane.getChildren().add(enemyImg);
+            
+            mapaJugadorImagen.put(personajes.get(i), enemyImg);
+        }
         onChange();
     }
 
@@ -76,6 +106,21 @@ public class BoardViewController implements Observer{
         System.out.println(newPos);
         playerImg.setLayoutX(newPos.getX());
         playerImg.setLayoutY(newPos.getY());
+
+        // ArrayList<Personaje> personajes = GameManager.getInstance().getPersonajes();
+        // Vector2Double newPos2;
+        // for (int i = 1; i < personajes.size(); i++) {
+        //     ImageView imagenAux = mapaJugadorImagen.get(personajes.get(i));
+        //     if (i == 1) {
+        //         newPos2 = matrixToInterface(personajes.get(i).getPosition());
+        //     } else{
+        //         newPos2 = matrixToInterface(personajes.get(i).getPosition());
+        //     }
+        //     System.out.println("aaaaaaaaaaa");
+        //     System.out.println(newPos2.getX());
+        //     imagenAux.setLayoutX(newPos2.getX());
+        //     imagenAux.setLayoutY(newPos2.getY());
+        // }
     }
 
     @Override
@@ -84,8 +129,8 @@ public class BoardViewController implements Observer{
         throw new UnsupportedOperationException("Unimplemented method 'onChange'");
     }
     
-    private Vector2Double matrixToInterface(Vector2 coord){
-        return new Vector2Double(cellSize*coord.getX(),cellSize*coord.getY());
+    private Vector2Double matrixToInterface(Vector2 vector2){
+        return new Vector2Double(cellSize*vector2.getX(),cellSize*vector2.getY());
     }
 
     public void setBoardSize(double boardSize){

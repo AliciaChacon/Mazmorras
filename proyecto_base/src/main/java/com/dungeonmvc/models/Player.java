@@ -11,14 +11,12 @@ public class Player extends Personaje{
     private ArrayList<Observer> observers;
 
     private String portrait;
-    private String image;
     private String leftHand;
     private String rightHand;
-    public Vector2 position;
     private Inventory inventory;
 
     private Player(String nombre,
-                   int puntosDeVida,
+                   int vida,
                    int fuerza,
                    int defensa,
                    int velocidad,
@@ -27,14 +25,12 @@ public class Player extends Personaje{
                    String leftHand,
                    String rightHand,
                    Vector2 start) {
-        super(nombre, puntosDeVida, fuerza, defensa, velocidad);
+        super(nombre, vida, fuerza, defensa, velocidad, image, start);
         observers = new ArrayList<>();
 
         this.portrait = portrait;
-        this.image = image;
         this.leftHand = leftHand;
         this.rightHand = rightHand;
-        this.position = start;
         this.inventory = new Inventory();
     }
 
@@ -47,9 +43,9 @@ public class Player extends Personaje{
                                       String image,
                                       String leftHand,
                                       String rightHand,
-                                      Vector2 start) {
+                                      Vector2 juanito) {
         if (instancia == null) {
-            instancia = new Player(nombre, puntosDeVida, fuerza, defensa, velocidad, portrait, image, leftHand, rightHand, start);
+            instancia = new Player(nombre, puntosDeVida, fuerza, defensa, velocidad, portrait, image, leftHand, rightHand, juanito);
         }
         return instancia;
     }
@@ -75,13 +71,6 @@ public class Player extends Personaje{
         notifyObservers();
     }
 
-    public String getImage() {
-        return this.image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public String getLeftHand() {
         return this.leftHand;
@@ -106,19 +95,20 @@ public class Player extends Personaje{
     }
 
     public Vector2 getPosition() {
-        return this.position;
+        return super.getPosition();
     }
 
     public int getX(){
-        return this.position.getX();
+        return super.getPosition().getX();
     }
 
     public int getY(){
-        return this.position.getY();
+        return super.getPosition().getY();
     }
 
     public void setPosition(Vector2 position) {
-        this.position = position;
+        super.setPosition(position);
         notifyObservers();
     }
+    
 }

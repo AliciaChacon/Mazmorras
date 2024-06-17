@@ -14,7 +14,7 @@ public class GameManager {
     Player player;
     Board board;
     ArrayList<Personaje> personajes = new ArrayList<>(); 
-
+    Enemigo enemy,enemy2;
     private GameManager(){
 
     }
@@ -35,6 +35,26 @@ public class GameManager {
         return this.board;
     }
 
+    public ArrayList<Personaje> getPersonajes() {
+        return personajes;
+    }
+    
+    public Enemigo getEnemy() {
+        return enemy;
+    }
+
+    public void setEnemy(Enemigo enemy) {
+        this.enemy = enemy;
+    }
+
+    public Enemigo getEnemy2() {
+        return enemy2;
+    }
+
+    public void setEnemy2(Enemigo enemy2) {
+        this.enemy2 = enemy2;
+    }
+
     public void newTurn(Direction direction){
         board.move(player, direction);
     }
@@ -50,11 +70,13 @@ public class GameManager {
         player.getInventory().addItem("item4");
         player.getInventory().addItem("item5");
         
-        Enemigo enemy = new Enemigo("Enemigo1", 10, 10, 10, 10, 10);
-        Enemigo enemy2 = new Enemigo("Enemigo2", 10, 10, 10, 10, 10);
+        enemy = new Enemigo("Enemigo1", 10, 10, 10, 10, 10, "enemigo", new Vector2(0, 504));
         
         personajes.add(player);
         personajes.add(enemy);
+
+        enemy2 = new Enemigo("Enemigo2", 10, 10, 10, 10, 10, "enemigo", new Vector2(216, 504));
+
         personajes.add(enemy2);
 
         boolean[][] boardMatrix = {
