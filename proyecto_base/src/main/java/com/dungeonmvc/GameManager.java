@@ -1,6 +1,7 @@
 package com.dungeonmvc;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 // import java.util.function.IntFunction;
 
@@ -13,7 +14,7 @@ public class GameManager {
 
     Player player;
     Board board;
-    ArrayList<Personaje> personajes = new ArrayList<>(); 
+    ArrayList<Personaje> personajes = new ArrayList<>();
     Enemigo enemy,enemy2;
     private GameManager(){
 
@@ -38,7 +39,7 @@ public class GameManager {
     public ArrayList<Personaje> getPersonajes() {
         return personajes;
     }
-    
+
     public Enemigo getEnemy() {
         return enemy;
     }
@@ -55,27 +56,33 @@ public class GameManager {
         this.enemy2 = enemy2;
     }
 
-    public void newTurn(Direction direction){
-        board.move(player, direction);
+    public void newTurn(Board.Direction direction) {
+        player.move(board,direction);
+        Collections.sort(personajes); // Ordenar personajes por velocidad
+
+        for (Personaje personaje : personajes) {
+            if (personaje instanceof Enemigo) {
+                ((Enemigo) personaje).move(board);
+            }
+        }
+        board.notifyObservers();
     }
 
+
     public void testGame(){
-        //player = new Player("portrait", "player", "Paladin", "item7", "item6", new Vector2(0, 0));
-        player = Player.getInstancia(
-                "Paladin1",33,12,20,15,
-                "portrait", "player", "item7", "item6", new Vector2(0, 0));
+        player = Player.getInstancia("Paladin1",33,12,20,15, "portrait", "player", "item7", "item6", new Vector2(0, 0));
         player.getInventory().addItem("item1");
         player.getInventory().addItem("item2");
         player.getInventory().addItem("item3");
         player.getInventory().addItem("item4");
         player.getInventory().addItem("item5");
-        
-        enemy = new Enemigo("Enemigo1", 10, 10, 10, 10, 10, "enemigo", new Vector2(0, 504));
-        
+
+        enemy = new Enemigo("Enemigo1", 10, 10, 10, 12, 10, "enemigo", new Vector2(0, 10));
+
         personajes.add(player);
         personajes.add(enemy);
 
-        enemy2 = new Enemigo("Enemigo2", 10, 10, 10, 10, 10, "enemigo", new Vector2(216, 504));
+        enemy2 = new Enemigo("Enemigo2", 10, 10, 10, 10, 10, "enemigo", new Vector2(15, 0));
 
         personajes.add(enemy2);
 

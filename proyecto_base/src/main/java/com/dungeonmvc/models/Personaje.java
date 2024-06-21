@@ -2,13 +2,13 @@ package com.dungeonmvc.models;
 
 import com.dungeonmvc.utils.Vector2;
 
-public class Personaje {
+public class Personaje implements Comparable<Personaje>{
     protected String nombre;
     protected int puntosDeVida;
     protected int fuerza;
     protected int defensa;
     protected int velocidad;
-    
+
     private String image;
     protected Vector2 position;
 
@@ -77,5 +77,9 @@ public class Personaje {
     public void setPosition(Vector2 position) {
         this.position = position;
     }
-    
+
+    @Override
+    public int compareTo(Personaje personaje2) {
+        return personaje2.velocidad - this.velocidad;
+    }
 }

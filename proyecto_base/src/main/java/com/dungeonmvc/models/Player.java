@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.dungeonmvc.interfaces.Observer;
 import com.dungeonmvc.utils.Vector2;
 
-public class Player extends Personaje{
+public class Player extends Personaje {
     private static Player instancia;
 
     private ArrayList<Observer> observers;
@@ -110,5 +110,14 @@ public class Player extends Personaje{
         super.setPosition(position);
         notifyObservers();
     }
-    
+
+    public void move(Board board, Board.Direction direction) {
+        Vector2 destino = board.getDestination(this.getPosition(), direction);
+        if (destino.getX() >= 0 && destino.getX() < board.getSize() && destino.getY() >= 0 && destino.getY() < board.getSize()) {
+            if (board.isFloor(destino)) {
+                this.setPosition(destino);
+                board.notifyObservers();
+            }
+        }
+    }
 }

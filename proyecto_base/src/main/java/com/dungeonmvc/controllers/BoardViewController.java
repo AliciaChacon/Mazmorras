@@ -26,7 +26,7 @@ public class BoardViewController implements Observer{
     private Board board;
     private double cellSize;
     private double boardSize;
- 
+
     private ImageView playerImg;
     HashMap<Personaje, ImageView> mapaJugadorImagen;
 
@@ -34,7 +34,7 @@ public class BoardViewController implements Observer{
     private void initialize() {
         System.out.println("Board controller loaded");
         board = GameManager.getInstance().getBoard();
-        
+
         board.suscribe(this);
     }
 
@@ -70,31 +70,31 @@ public class BoardViewController implements Observer{
         playerImg.setImage(new Image(App.class.getResource("images/"+board.getPlayer().getImage()+".png").toExternalForm(),cellSize,cellSize,true,false));
         playerImg.setSmooth(false);
         pane.getChildren().add(playerImg);
-        
-        
+
+
         ArrayList<ImageView> imagenesPersonajes = new ArrayList<ImageView>();
         imagenesPersonajes.add(playerImg);
-        
-        
+
+
         ArrayList<Personaje> personajes = GameManager.getInstance().getPersonajes();
         mapaJugadorImagen = new HashMap<>();
         ImageView enemyImg;
-        
+
         mapaJugadorImagen.put(personajes.get(0), playerImg);
-        
-        for (int i = 1; i < personajes.size(); i++) {   
+
+        for (int i = 1; i < personajes.size(); i++) {
             enemyImg = new ImageView();
-            
+
             enemyImg.setFitWidth(cellSize);
             enemyImg.setFitHeight(cellSize);
             enemyImg.setImage(new Image(App.class.getResource("images/"+GameManager.getInstance().getEnemy().getImage()+".png").toExternalForm(),cellSize,cellSize,true,false));
             enemyImg.setSmooth(false);
-            
+
             enemyImg.setLayoutX(personajes.get(i).getPosition().getX());
             enemyImg.setLayoutY(personajes.get(i).getPosition().getY());
-            
+
             pane.getChildren().add(enemyImg);
-            
+
             mapaJugadorImagen.put(personajes.get(i), enemyImg);
         }
         onChange();
@@ -107,20 +107,18 @@ public class BoardViewController implements Observer{
         playerImg.setLayoutX(newPos.getX());
         playerImg.setLayoutY(newPos.getY());
 
-        // ArrayList<Personaje> personajes = GameManager.getInstance().getPersonajes();
-        // Vector2Double newPos2;
-        // for (int i = 1; i < personajes.size(); i++) {
-        //     ImageView imagenAux = mapaJugadorImagen.get(personajes.get(i));
-        //     if (i == 1) {
-        //         newPos2 = matrixToInterface(personajes.get(i).getPosition());
-        //     } else{
-        //         newPos2 = matrixToInterface(personajes.get(i).getPosition());
-        //     }
-        //     System.out.println("aaaaaaaaaaa");
-        //     System.out.println(newPos2.getX());
-        //     imagenAux.setLayoutX(newPos2.getX());
-        //     imagenAux.setLayoutY(newPos2.getY());
-        // }
+        ArrayList<Personaje> personajes = GameManager.getInstance().getPersonajes();
+        for (int i = 1; i < personajes.size(); i++) {
+            ImageView imagenAux = mapaJugadorImagen.get(personajes.get(i));
+            // Limitar las coordenadas a los límites del tablero
+            Vector2 position = personajes.get(i).getPosition();
+            int x = Math.min(Math.max(position.getX(), 0), board.getSize() - 1);
+            int y = Math.min(Math.max(position.getY(), 0), board.getSize() - 1);
+
+            Vector2Double newPos2 = matrixToInterface(new Vector2(x, y));
+            imagenAux.setLayoutX(newPos2.getX());
+            imagenAux.setLayoutY(newPos2.getY());
+        }
     }
 
     @Override
@@ -128,7 +126,7 @@ public class BoardViewController implements Observer{
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'onChange'");
     }
-    
+
     private Vector2Double matrixToInterface(Vector2 vector2){
         return new Vector2Double(cellSize*vector2.getX(),cellSize*vector2.getY());
     }

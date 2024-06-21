@@ -66,7 +66,7 @@ public class Board{
     }
 
     public boolean isFloor(Vector2 position){
-        return board[position.getX()][position.getY()].getIsFloor();
+        return board[position.getY()][position.getX()].getIsFloor();
     }
 
     public boolean isFloor(int x, int y){
@@ -92,16 +92,6 @@ public class Board{
     public void newCell(Vector2 position, boolean isFloor){
         Cell cell = new Cell(isFloor);
         board[position.getX()][position.getY()] = cell;
-    }
-
-    public void move(Player player, Direction direction){
-        Vector2 destino = getDestination(player.position, direction);
-        if (destino.getX()>=0&&destino.getX()<size && destino.getY()>=0&&destino.getY()<size) {
-            if (board[destino.getY()][destino.getX()].getIsFloor()) {
-                player.setPosition(destino);
-            }
-        }
-        notifyObservers();
     }
 
     public Vector2 getDestination(Vector2 position, Direction direction){
