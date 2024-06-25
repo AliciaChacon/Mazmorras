@@ -16,6 +16,7 @@ public class GameManager {
     Board board;
     ArrayList<Personaje> personajes = new ArrayList<>();
     Enemigo enemy,enemy2;
+    Cazador cazador;
     private GameManager(){
 
     }
@@ -26,7 +27,6 @@ public class GameManager {
         }
         return instance;
     }
-
 
     public Player getPlayer() {
         return this.player;
@@ -43,7 +43,6 @@ public class GameManager {
     public Enemigo getEnemy() {
         return enemy;
     }
-
     public void setEnemy(Enemigo enemy) {
         this.enemy = enemy;
     }
@@ -51,10 +50,17 @@ public class GameManager {
     public Enemigo getEnemy2() {
         return enemy2;
     }
-
     public void setEnemy2(Enemigo enemy2) {
         this.enemy2 = enemy2;
     }
+
+    public Cazador getCazador(){
+        return cazador;
+    }
+    public void setCazador(Cazador cazador){
+        this.cazador=cazador;
+    }
+    
 
     public void newTurn(Board.Direction direction) {
         player.move(board,direction);

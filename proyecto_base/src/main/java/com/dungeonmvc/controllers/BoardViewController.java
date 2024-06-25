@@ -75,10 +75,10 @@ public class BoardViewController implements Observer{
         ArrayList<ImageView> imagenesPersonajes = new ArrayList<ImageView>();
         imagenesPersonajes.add(playerImg);
 
-
         ArrayList<Personaje> personajes = GameManager.getInstance().getPersonajes();
         mapaJugadorImagen = new HashMap<>();
         ImageView enemyImg;
+        
 
         mapaJugadorImagen.put(personajes.get(0), playerImg);
 
